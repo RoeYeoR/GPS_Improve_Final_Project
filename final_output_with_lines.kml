@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<Style id="losStyle">
+  <LineStyle>
+    <color>ff00ff00</color>
+    <width>2</width>
+  </LineStyle>
+</Style>
+<Style id="nlosStyle">
+  <LineStyle>
+    <color>ff0000ff</color>
+    <width>2</width>
+  </LineStyle>
+</Style>
+<Placemark>
+  <name>Selected Point</name>
+  <Point>
+    <coordinates>34.80250978765782,32.08370391161102,1.8</coordinates>
+  </Point>
+</Placemark>
+<Placemark>
+  <name>Line to Landsat 9</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      -98.0,0.0,705000.0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to TerraSAR-X</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      13.0,52.0,514000.0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to אופק-16</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      34.8,31.5,400000.0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to ISS</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      0.0,0.0,408000.0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to GPS Block III</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      -95.0,0.0,2.02E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to Galileo</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      10.0,0.0,2.3222E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to NOAA-20</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      -100.0,0.0,825000.0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <name>Line to GLONASS-K</name>
+  <styleUrl>#losStyle</styleUrl>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.80250978765782,32.08370391161102,1.8
+      37.0,0.0,1.91E7
+    </coordinates>
+  </LineString>
+</Placemark>
+</Document>
+</kml>

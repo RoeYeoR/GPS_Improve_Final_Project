@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Floating Satellites at Real Altitudes</name>
+    
+    <Style id="leoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.0</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="meoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.0</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- LEO Satellites -->
+    <Folder>
+      <name>LEO Satellites</name>
+      
+      <Placemark>
+        <name>ISS</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 408 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>0,0,408000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>אופק-16</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 400 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>34.8,31.5,400000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Landsat 9</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 705 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>-98,0,705000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>NOAA-20</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 825 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>-100,0,825000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>TerraSAR-X</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 514 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>13,52,514000</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+    <!-- MEO Satellites -->
+    <Folder>
+      <name>MEO Satellites</name>
+
+      <Placemark>
+        <name>GPS Block III</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 20,200 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>-95,0,20200000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Galileo</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 23,222 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>10,0,23222000</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>GLONASS-K</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 19,100 ק"מ</description>
+        <Point>
+          <extrude>1</extrude>
+          <altitudeMode>absolute</altitudeMode>
+          <coordinates>37,0,19100000</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+  </Document>
+</kml>

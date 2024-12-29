@@ -201,14 +201,16 @@ public class KML_Generator
 
 
     public static void Generate_kml_from_List(List<Point3D> PointList, String FilePath) {
-
-        Generate_kml_from_List( PointList,  FilePath, false);
+        Generate_kml_from_List(PointList, FilePath, false, "redpin");
     }
-    public static void Generate_kml_from_List(List<Point3D> PointList, String FilePath, Boolean isPointsInLATLON)
+    
+    public static void Generate_kml_from_List(List<Point3D> PointList, String FilePath, Boolean isPointsInLATLON) {
+        Generate_kml_from_List(PointList, FilePath, isPointsInLATLON, "redpin");
+    }
+
+    public static void Generate_kml_from_List(List<Point3D> PointList, String FilePath, Boolean isPointsInLATLON, String pinColor)
     {
         String line= new String("");
-
-
         int i=0;
         double  lat,lon;
         Point3D tmp;
@@ -217,35 +219,27 @@ public class KML_Generator
             fstream = new FileWriter(FilePath);
             BufferedWriter out = new BufferedWriter(fstream);
             out.write("<Document>\n");
-            out.write("<Style id=\"redred\">\n");
+            
+            // Define red pin style
+            out.write("<Style id=\"redpin\">\n");
             out.write("<IconStyle>\n");
-            out.write("<color>00ff00ff</color>\n<scale>0.5</scale>\n</IconStyle>\n");
+            out.write("<color>ff0000ff</color>\n<scale>0.5</scale>\n");
+            out.write("<Icon><href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href></Icon>\n");
+            out.write("</IconStyle>\n</Style>\n");
 
-            out.write("</Style>\n");
-            ////////////////////////////////////////////////////////////////////////////////////
-
-            out.write("\n<Style id=\"poly\">\n<LineStyle>\n<width>2.7</width>\n</LineStyle>\n");
-            out.write("<PolyStyle>\n<fill>0</fill>\n</PolyStyle>\n</Style>\n ");
-            ////////////////////////////////////////////////////////////////////////////////////////
-            out.write("\n<Style id=\"fill_poly\">\n<LineStyle>\n<width>2.7</width>\n</LineStyle>\n");
-            out.write("<PolyStyle>\n<fill>1</fill>\n</PolyStyle>\n</Style>\n ");
-            /////////////////////////////////////////////////////////////////////////////////
-            out.write("\n\n<Style id=\"green\">\n");
+            // Define yellow pin style
+            out.write("<Style id=\"yellowpin\">\n");
             out.write("<IconStyle>\n");
-            out.write("<color>ff0000ff</color>\n<scale>0.5</scale>\n</IconStyle>\n");
-            out.write("</Style>\n");
+            out.write("<color>ff00ffff</color>\n<scale>0.5</scale>\n");
+            out.write("<Icon><href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href></Icon>\n");
+            out.write("</IconStyle>\n</Style>\n");
 
             System.out.println("");
 
-            //out.write("")
             for (i=0; i<PointList.size(); i++)
             {
                 out.write("\n\n<Placemark>\n");
-                //	if(i%2==0)
-
-                //	out.write(" <styleUrl>#green</styleUrl>\n");
-                //	else
-                out.write(" <styleUrl>#green</styleUrl>\n");
+                out.write(" <styleUrl>#" + pinColor + "</styleUrl>\n");
                 out.write("<Style>\n<BalloonStyle>\n<text>This point was taken at time " + i + " with coordinates (x: " + PointList.get(i).getX() + ", y: " + PointList.get(i).getY() + ", z: " + PointList.get(i).getZ() + ")</text>\n</BalloonStyle>\n</Style>\n");
                 out.write("<TimeStamp>\n");
                 out.write("<when>"+i+"</when>\n");

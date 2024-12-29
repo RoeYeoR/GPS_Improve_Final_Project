@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>LEO and MEO Satellites with Accurate Altitudes</name>
+    
+    <!-- Styles remain the same -->
+    <Style id="leoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="meoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <!-- LEO Satellites -->
+    <Folder>
+      <name>LEO Satellites</name>
+
+      <Placemark>
+        <name>ISS</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 408 ק"מ</description>
+        <Point><coordinates>0,0,408000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>אופק-16</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 400 ק"מ</description>
+        <Point><coordinates>34.8,31.5,400000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Landsat 9</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 705 ק"מ</description>
+        <Point><coordinates>-98,0,705000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Sentinel-1A</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 693 ק"מ</description>
+        <Point><coordinates>12,0,693000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>KOMPSAT-5</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 550 ק"מ</description>
+        <Point><coordinates>127,36,550000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>TerraSAR-X</name>
+        <styleUrl>#leoStyle</styleUrl>
+        <description>גובה: 514 ק"מ</description>
+        <Point><coordinates>13,52,514000</coordinates></Point>
+      </Placemark>
+
+      <!-- MEO Satellites -->
+      <Placemark>
+        <name>GPS Block III</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 20,200 ק"מ</description>
+        <Point><coordinates>-95,0,20200000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Galileo</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 23,222 ק"מ</description>
+        <Point><coordinates>10,0,23222000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>GLONASS-K</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 19,100 ק"מ</description>
+        <Point><coordinates>37,0,19100000</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>BeiDou-3</name>
+        <styleUrl>#meoStyle</styleUrl>
+        <description>גובה: 21,528 ק"מ</description>
+        <Point><coordinates>120,0,21528000</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>מקרא גבהים</name>
+      <description>
+        לווייני LEO:
+        - ISS: 408 ק"מ
+        - אופק-16: 400 ק"מ
+        - Landsat 9: 705 ק"מ
+        - Sentinel-1A: 693 ק"מ
+        - KOMPSAT-5: 550 ק"מ
+        - TerraSAR-X: 514 ק"מ
+
+        לווייני MEO:
+        - GPS Block III: 20,200 ק"מ
+        - Galileo: 23,222 ק"מ
+        - GLONASS-K: 19,100 ק"מ
+        - BeiDou-3: 21,528 ק"מ
+      </description>
+    </Folder>
+  </Document>
+</kml>

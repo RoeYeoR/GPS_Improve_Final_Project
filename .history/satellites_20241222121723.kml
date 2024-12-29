@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>LEO Satellites</name>
+    
+    <Style id="leoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png</href>
+        </Icon>
+        <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.8</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- ISS -->
+    <Placemark>
+      <name>ISS - תחנת החלל הבינלאומית</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>גובה: ~408 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,408000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Ofek-16 -->
+    <Placemark>
+      <name>אופק-16</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין תצפית ישראלי, גובה: ~400 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>34.8,31.5,400000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- NOAA-19 -->
+    <Placemark>
+      <name>NOAA-19</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין מזג אוויר, גובה: ~870 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-100,0,870000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Landsat 8 -->
+    <Placemark>
+      <name>Landsat 8</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין צילום כדור הארץ, גובה: ~705 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-98,0,705000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Ofek-11 -->
+    <Placemark>
+      <name>אופק-11</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין תצפית ישראלי, גובה: ~600 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>35,32,600000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- KOMPSAT-5 -->
+    <Placemark>
+      <name>KOMPSAT-5</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין תצפית קוריאני, גובה: ~550 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>127,36,550000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- OneWeb-0347 -->
+    <Placemark>
+      <name>OneWeb-0347</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין תקשורת, גובה: ~1200 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-80,0,1200000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Sentinel-6 -->
+    <Placemark>
+      <name>Sentinel-6</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>לוויין מעקב אוקיאנוגרפי, גובה: ~1336 ק"מ</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,1336000</coordinates>
+      </Point>
+    </Placemark>
+
+    <Folder>
+      <name>מידע</name>
+      <description>
+        לוויינים במסלול LEO (Low Earth Orbit)
+        גובה: בין 160 ל-2,000 ק"מ מעל פני כדור הארץ
+        כל הנעצים מסומנים בכחול
+      </description>
+    </Folder>
+  </Document>
+</kml>

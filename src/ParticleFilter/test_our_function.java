@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Created by eyal on 05/05/2016.
+ */
 public class test_our_function {
     public static void main(String[] args) {
         //manual1();
@@ -42,8 +44,6 @@ public class test_our_function {
         testIntersectionPoint3D();
     }
 
-
-
     public static String arrayToString(Boolean[] array) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -65,7 +65,7 @@ public class test_our_function {
         Point3D p3 = new Point3D(122.083,37.423,100);
         Point3D p4 = new Point3D(-122.083,37.422,100);
 
-        List<Point3D> points  = new ArrayList<Point3D> ();;
+        List<Point3D> points  = new ArrayList<Point3D> ();
         points.add(p1);
         points.add(p2);
         points.add(p3);
@@ -208,7 +208,6 @@ public class test_our_function {
         List<Sat> all_sat = new ArrayList<>();
         all_sat.add(s);
 
-
         Particle p_inside_the_building = new Particle(670081,3551156,1);
         Particle p_outside_the_building = new Particle(670053,3551100,1);
         Point3D pivot = new Point3D(670053, 3551100, 1);
@@ -216,7 +215,6 @@ public class test_our_function {
         pivot2.offset(100, 100, 0);
 
 //        System.out.println(p_inside_the_building.OutOfRegion(bs, pivot, pivot2));
-
 
         Particle.PrintArr(p_inside_the_building.LOS);
         p_inside_the_building.MessureSesnor(bs,all_sat);
@@ -244,7 +242,7 @@ public class test_our_function {
         ParticleList.Print3DPoints();
 
         // Now move particles with the action
-        ParticleList.MoveParticleWithError(Actions.get(0));
+        ParticleList.ourMoveParticleWithError(Actions.get(0));
 
         System.out.println("\n");
         System.out.println("After moveWithError : ");
@@ -257,12 +255,11 @@ public class test_our_function {
         String walls_file = "Esri_v0.4.kml";
 
 
+
         // Buildings bs;
         List<Sat> allSats;
 
-
-
-        List<Point3D> path;
+        List<Point3D> path = new ArrayList<>();
         Particles ParticleList;
         Point3D pivot, pivot2;
         int CurrentGeneration;
@@ -278,13 +275,14 @@ public class test_our_function {
             e.printStackTrace();
         }
         System.out.println("Number of buildings is " + bs.size());
-        path = UtilsAlgorithms.createPath();
+//        path = UtilsAlgorithms.createPath();
 
         allSats = UtilsAlgorithms.createSatDataList();
         String Simulation_route_3D_kml_path = "Simulaton__route_May_2016.kml";
 
-        String Particle_path3 = "KaminData\\Simulaton_routeTest_initial.kml";
-        String Particle_path = "KaminData\\Simulaton_routeTest_FInal";
+        String Particle_path3 = "KaminData/Simulaton_routeTest_initial.kml";
+        String Particle_path = "KaminData/Simulaton_routeTest_FInal";
+
 
 
         KML_Generator.Generate_kml_from_List(path, Simulation_route_3D_kml_path);
@@ -295,12 +293,10 @@ public class test_our_function {
         pivot2.offset(100, 100, 0);
         LosData losData = new LosData( bs, path, allSats);
 
-
         ParticleList.initParticles(pivot, pivot2);
         KML_Generator.Generate_kml_from_ParticleList(ParticleList, Particle_path3,10);
 
         NMEAProtocolParser parser = new NMEAProtocolParser();
-
 
         Actions = new ArrayList<ActionFunction>();
         List<Point3D> PointList = null;
@@ -313,23 +309,22 @@ public class test_our_function {
 
             Actions.add(tmp);
         }
-        List<Point3D> ans = new ArrayList<Point3D>();
+        List<Point3D> ans = new ArrayList<>();
         for(int i=1;i<path.size()-1; i++)
         {
 
             System.out.println("compute for timestamp "+i);
-            ParticleList.MoveParticleWithError(Actions.get(i));
+            ParticleList.ourMoveParticleWithError(Actions.get(i));
 
             ParticleList.OutFfRegion(bs, pivot, pivot2);
 
             ParticleList.MessureSignalFromSats( bs,  allSats);
 
-            ParticleList.MoveParticleWithError(Actions.get(i));
+            ParticleList.ourMoveParticleWithError(Actions.get(i));
 
             ParticleList.ComputeWeightsNoHistory(losData.getSatData(i));
             //ParticleList.ComputeWeights(losData.getSatData(i)); // compute weights with hisotry
             ParticleList.Resample();
-
 
             Point3D tmp = ParticleList.GetParticleWithMaxWeight();
             ans.add(tmp);
@@ -361,7 +356,6 @@ public class test_our_function {
 
 
 
-
         Particles ParticleList = new Particles();
         Point3D pivot = new Point3D(670053, 3551100, 1);
         Point3D pivot2 =  new Point3D(pivot);
@@ -382,6 +376,7 @@ public class test_our_function {
             System.out.println("Point "+i +" ,NumberOfMatchedSats: " + p.getNumberOfMatchedSats() );
 
 
+
             i++;
         }
     }
@@ -400,6 +395,7 @@ public class test_our_function {
         path = UtilsAlgorithms.createPath();
         List<Sat> allSats;
         allSats = UtilsAlgorithms.createSatDataList();
+
 
 
         Particles ParticleList = new Particles();
@@ -623,9 +619,8 @@ public class test_our_function {
 
         ParticleList.initParticles(pivot, pivot2);
         KML_Generator.Generate_kml_from_ParticleList(ParticleList, Particle_path3, 10);
-        Particle real_Point_0 = new Particle( 670103.5,  3551179.5,  1.0);
+        Particle real_Point_0 = new Particle(  670103.5,  3551179.5,  1.0);
         Point3D closest_Particle = new Point3D(670105.0,3551180.0,1.0);
-
 
         for(int i = 0; i< ParticleList.getParticleList().size(); i++)
         {
@@ -658,7 +653,7 @@ public class test_our_function {
     }
     public static void convert() {
         Point3D p = new Point3D(670053,3551100,1);
-        List<Point3D> ans = new ArrayList<Point3D>();
+        List<Point3D> ans = new ArrayList<>();
         Point3D GeoUtils_p =GeoUtils.convertUTMtoLATLON(p,36);
         Point3D Point3D_p =  Point3D.convertUTMToLatLon(p,"36N");
         System.out.println(GeoUtils_p);
@@ -670,16 +665,17 @@ public class test_our_function {
 
 
 
+
     }
     public static void create_satellite_data(){
         String walls_file = "Esri_v0.4.kml";
-        List<Sat> allSats;
 
 //        List<Point3D> path;
         Particles ParticleList;
         Point3D pivot, pivot2;
         int CurrentGeneration;
         String Simulation_route_kml_path = "Simulaton__route_May_2016.kml";
+
 
 
         List<ActionFunction>  Actions;
@@ -692,7 +688,7 @@ public class test_our_function {
         System.out.println("Number of buildings is " + bs.size());
 //        path = UtilsAlgorithms.createPath();
 
-        allSats = UtilsAlgorithms.createSatDataList();
+        List<Sat> allSats = UtilsAlgorithms.createSatDataList();
         String Simulation_route_3D_kml_path = "Simulaton__route_May_2016.kml";
 
         String Particle_path = "KaminData\\Simulaton_routeTest_FInal";
@@ -707,10 +703,8 @@ public class test_our_function {
         pivot2.offset(100, 100, 0);
 //        LosData losData = new LosData( bs, path, allSats);
 
-
         ParticleList.initParticles(pivot, pivot2);
 //        KML_Generator.Generate_kml_from_ParticleList(ParticleList, Particle_path3,allSats.size());
-
 
 
 
@@ -771,7 +765,7 @@ public class test_our_function {
             e.printStackTrace();
         }
         allSats = UtilsAlgorithms.createSatDataList();
-        Particle p = new Particle( 670079.41,  3551156.63, 1.0);
+        Particle p = new Particle(  670079.41,  3551156.63, 1.0);
 //        p.MessureSesnor(bs,allSats);
 //        for(int i=0 ; i<allSats.size()-1 ;i++){
 //            System.out.println(p.getLOS()[i]);
@@ -894,7 +888,6 @@ public class test_our_function {
         point= GeoUtils.convertUTMtoLATLON(point,36);
         System.out.println(point);
 
-
         Line3D line = new Line3D(point,azimut,elovation,300);
 
         for(int j=0;j<bs.size();j++){
@@ -908,26 +901,9 @@ public class test_our_function {
 
 
 
-
-
     }
 
 
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

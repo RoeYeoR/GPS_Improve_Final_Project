@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Satellite Positions</name>
+    <Style id="satelliteStyle">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/star.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <!-- GPS IIR-2 -->
+    <Placemark>
+      <name>GPS IIR-2 (USA-132)</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,20200000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- GOES-16 -->
+    <Placemark>
+      <name>GOES-16</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-75.2,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- ISS -->
+    <Placemark>
+      <name>ISS</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,408000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Meteosat-9 -->
+    <Placemark>
+      <name>Meteosat-9</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Ofek-16 -->
+    <Placemark>
+      <name>אופק-16</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>34.8,31.5,400000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Intelsat 17 -->
+    <Placemark>
+      <name>Intelsat 17</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>66,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- AMOS-3 -->
+    <Placemark>
+      <name>אמוס-3</name>
+      <styleUrl>#satelliteStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-4,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Additional satellites would follow the same pattern -->
+    <!-- Note: Only including a subset for brevity -->
+
+    <description>
+      מקרא מסלולים:
+      LEO: 160-2000 km
+      MEO: 2000-35786 km
+      GEO: 35786 km
+    </description>
+  </Document>
+</kml>

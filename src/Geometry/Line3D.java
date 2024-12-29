@@ -35,6 +35,8 @@ public class Line3D {
         //http://en.wikipedia.org/wiki/Spherical_coordinate_system
         double newAzimut = GeomUtils.ConvertSatAzimutInDegreesTOfitUnitCircle(azimuth);
         //newAzimut = azimuth;
+        // הגדלת מרחק הבדיקה ל-1000 מטר
+        dist = 1000;
         double newX = pos.getX() + dist*Math.cos(Math.toRadians(elevetion))*Math.cos(Math.toRadians(newAzimut));
         double newY = pos.getY() + dist*Math.cos(Math.toRadians(elevetion))*Math.sin(Math.toRadians(newAzimut));
         double newZ = pos.getZ() + dist*Math.sin(Math.toRadians(elevetion));
@@ -123,8 +125,90 @@ public class Line3D {
         return null;
     }
 
-
-
+    public boolean intersects(Line3D other) {
+        // Get the direction vectors of both lines
+        Point3D dir1 = new Point3D(p2.getX() - p1.getX(), p2.getY() - p1.getY(), p2.getZ() - p1.getZ());
+        Point3D dir2 = new Point3D(other.p2.getX() - other.p1.getX(), 
+                                  other.p2.getY() - other.p1.getY(), 
+                                  other.p2.getZ() - other.p1.getZ());
+        
+        // Calculate the cross product of the direction vectors
+        Point3D cross = new Point3D(
+            dir1.getY() * dir2.getZ() - dir1.getZ() * dir2.getY(),
+            dir1.getZ() * dir2.getX() - dir1.getX() * dir2.getZ(),
+            dir1.getX() * dir2.getY() - dir1.getY() * dir2.getX()
+        );
+        
+        // If the cross product is zero, lines are parallel
+        if (cross.getX() == 0 && cross.getY() == 0 && cross.getZ() == 0) {
+            return false;
+        }
+        
+        // Calculate the intersection point
+        Point3D intersection = getIntersectionPoint(other);
+        if (intersection == null) {
+            return false;
+        }
+        
+        // Check if intersection point lies on both line segments
+        return isPointOnSegment(intersection) && other.isPointOnSegment(intersection);
+    }
+    
+    public Point3D getIntersectionPoint(Line3D other) {
+        // Get the direction vectors of both lines
+        Point3D dir1 = new Point3D(p2.getX() - p1.getX(), p2.getY() - p1.getY(), p2.getZ() - p1.getZ());
+        Point3D dir2 = new Point3D(other.p2.getX() - other.p1.getX(), 
+                                  other.p2.getY() - other.p1.getY(), 
+                                  other.p2.getZ() - other.p1.getZ());
+        
+        // Calculate the cross product of the direction vectors
+        Point3D cross = new Point3D(
+            dir1.getY() * dir2.getZ() - dir1.getZ() * dir2.getY(),
+            dir1.getZ() * dir2.getX() - dir1.getX() * dir2.getZ(),
+            dir1.getX() * dir2.getY() - dir1.getY() * dir2.getX()
+        );
+        
+        // If the cross product is zero, lines are parallel
+        if (cross.getX() == 0 && cross.getY() == 0 && cross.getZ() == 0) {
+            return null;
+        }
+        
+        // Calculate parameters for the intersection point
+        Point3D delta = new Point3D(other.p1.getX() - p1.getX(), 
+                                   other.p1.getY() - p1.getY(), 
+                                   other.p1.getZ() - p1.getZ());
+        
+        double t = (delta.getX() * dir2.getY() * dir1.getZ() + 
+                   dir2.getX() * dir1.getY() * delta.getZ() + 
+                   delta.getY() * dir1.getX() * dir2.getZ() - 
+                   delta.getZ() * dir1.getY() * dir2.getX() - 
+                   delta.getY() * dir2.getZ() * dir1.getX() - 
+                   dir2.getY() * dir1.getZ() * delta.getX()) / 
+                  (dir1.getX() * dir2.getY() * dir2.getZ() + 
+                   dir2.getX() * dir2.getZ() * dir1.getY() + 
+                   dir2.getY() * dir1.getZ() * dir2.getX() - 
+                   dir2.getZ() * dir1.getY() * dir2.getX() - 
+                   dir2.getY() * dir2.getZ() * dir1.getX() - 
+                   dir2.getX() * dir1.getZ() * dir2.getY());
+        
+        // Calculate the intersection point
+        return new Point3D(
+            p1.getX() + t * dir1.getX(),
+            p1.getY() + t * dir1.getY(),
+            p1.getZ() + t * dir1.getZ()
+        );
+    }
+    
+    private boolean isPointOnSegment(Point3D point) {
+        // Check if point lies on the line segment
+        double d1 = point.distance(p1);
+        double d2 = point.distance(p2);
+        double lineLength = p1.distance(p2);
+        
+        // Allow for small floating-point errors
+        double epsilon = 0.000001;
+        return Math.abs(d1 + d2 - lineLength) < epsilon;
+    }
 
     public double distanceFromPoint(Point3D p)
   {return 0;}

@@ -62,11 +62,9 @@ public class LosAlgorithm {
     //Computes LOS between a point, a wall, and a satellite.
     public static boolean ComputeLos(Point3D pos, Wall wall, Sat sat)
     {
-        Line3D ray = new Line3D(pos, sat.getAzimuth(),sat.getElevetion(), 300);
-        boolean ans = wall.isIntersecting(ray);
-        if(ans==true) // wall is intersection, hence NLOS
-            return !ans;
-        return !ans; //wall does not intersecting, hence LOS
+        Line3D ray = new Line3D(pos, sat.getAzimuth(), sat.getElevetion(), 300);
+        Point3D intersectionPoint = wall.intersectionPoint3D(ray);
+        return intersectionPoint == null; // אם אין נקודת חיתוך - יש LOS
     }
     /**
      receives a wall and satellite point,
@@ -155,8 +153,26 @@ public class LosAlgorithm {
         return max_distanceToTop == Integer.MIN_VALUE ? -1: max_distanceToTop;
     }
 
-
-
+    public static boolean ComputeLosWithPosition(Point3D pos, List<Building> buildings, Point3D satPos) {
+        // Calculate direction vector from position to satellite
+        double dx = satPos.getX() - pos.getX();
+        double dy = satPos.getY() - pos.getY();
+        double dz = satPos.getZ() - pos.getZ();
+        
+        // Create ray from position in direction of satellite
+        Line3D ray = new Line3D(pos, new Point3D(pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz));
+        
+        // Check each building for intersection
+        for (Building building : buildings) {
+            for (Wall wall : building.getWalls()) {
+                Point3D intersection = wall.intersectionPoint3D(ray);
+                if (intersection != null) {
+                    return false; // Found intersection, so it's NLOS
+                }
+            }
+        }
+        return true; // No intersections found, so it's LOS
+    }
 
     public static Set<Building> findBuildings(Point2D base, double az, List<Building> allBuildings, int azimutResolution) {
 

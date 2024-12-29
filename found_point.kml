@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>LOS/NLOS Analysis</name>
+    <description>Visualization of LOS and NLOS satellites</description>
+    <Style id="losStyle">
+      <LineStyle>
+        <color>ff00ff00</color>
+        <width>3</width>
+      </LineStyle>
+      <IconStyle>
+        <scale>1.0</scale>
+      </IconStyle>
+    </Style>
+    <Style id="nlosStyle">
+      <LineStyle>
+        <color>ff0000ff</color>
+        <width>3</width>
+      </LineStyle>
+      <IconStyle>
+        <scale>1.0</scale>
+      </IconStyle>
+    </Style>
+    <Placemark>
+      <name>Selected Point</name>
+      <description>Analysis Point Location</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>32.08370391161102,34.80250978765782,1.8</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 1 - NLOS</name>
+      <description>Elevation: 6.0°, Azimuth: 266.3°</description>
+      <styleUrl>#nlosStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          -3.544050799887359E-10,166021.4430805301,408000.0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 1 Position</name>
+      <styleUrl>#nlosStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>166021.4430805301,-3.544050799887359E-10,408000.0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 2 - LOS</name>
+      <description>Elevation: 82.4°, Azimuth: 179.6°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          3851889.412249293,362784.7963516491,400000.0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 2 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>362784.7963516491,3851889.412249293,400000.0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 3 - LOS</name>
+      <description>Elevation: NaN°, Azimuth: NaN°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          NaN,NaN,705000.0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 3 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>NaN,NaN,705000.0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 4 - LOS</name>
+      <description>Elevation: NaN°, Azimuth: NaN°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          NaN,NaN,825000.0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 4 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>NaN,NaN,825000.0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 5 - NLOS</name>
+      <description>Elevation: 12.0°, Azimuth: 274.6°</description>
+      <styleUrl>#nlosStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          1437348.6255390155,608446.3441022538,514000.0
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 5 Position</name>
+      <styleUrl>#nlosStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>608446.3441022538,1437348.6255390155,514000.0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 6 - LOS</name>
+      <description>Elevation: NaN°, Azimuth: NaN°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          NaN,NaN,2.02E7
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 6 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>NaN,NaN,2.02E7</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 7 - LOS</name>
+      <description>Elevation: 83.2°, Azimuth: 264.9°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          1106908.8541592099,171071.2639408672,2.3222E7
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 7 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>171071.2639408672,1106908.8541592099,2.3222E7</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 8 - LOS</name>
+      <description>Elevation: 89.1°, Azimuth: 126.5°</description>
+      <styleUrl>#losStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>
+          32.08370391161102,34.80250978765782,1.8
+          4099080.6931923,233037.8798266303,1.91E7
+        </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>Satellite 8 Position</name>
+      <styleUrl>#losStyle</styleUrl>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>233037.8798266303,4099080.6931923,1.91E7</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

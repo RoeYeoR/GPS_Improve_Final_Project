@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Satellite Positions</name>
+    
+    <!-- Style for GEO satellites -->
+    <Style id="geoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href>
+        </Icon>
+        <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.8</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- Style for LEO satellites -->
+    <Style id="leoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png</href>
+        </Icon>
+        <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.8</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- Style for MEO satellites -->
+    <Style id="meoStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+        </Icon>
+        <hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.8</scale>
+      </LabelStyle>
+    </Style>
+
+    <!-- GPS IIR-2 -->
+    <Placemark>
+      <name>GPS IIR-2 (USA-132)</name>
+      <styleUrl>#meoStyle</styleUrl>
+      <description>MEO Satellite at 20,200 km</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,20200000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- GOES-16 -->
+    <Placemark>
+      <name>GOES-16</name>
+      <styleUrl>#geoStyle</styleUrl>
+      <description>GEO Satellite at 75.2°W</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-75.2,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- ISS -->
+    <Placemark>
+      <name>ISS</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>LEO - International Space Station at ~408 km</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,408000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Meteosat-9 -->
+    <Placemark>
+      <name>Meteosat-9</name>
+      <styleUrl>#geoStyle</styleUrl>
+      <description>GEO Satellite at 0°</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>0,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Ofek-16 -->
+    <Placemark>
+      <name>אופק-16</name>
+      <styleUrl>#leoStyle</styleUrl>
+      <description>LEO Satellite</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>34.8,31.5,400000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Intelsat 17 -->
+    <Placemark>
+      <name>Intelsat 17</name>
+      <styleUrl>#geoStyle</styleUrl>
+      <description>GEO Satellite at 66°E</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>66,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- AMOS-3 -->
+    <Placemark>
+      <name>אמוס-3</name>
+      <styleUrl>#geoStyle</styleUrl>
+      <description>GEO Satellite at 4°W</description>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-4,0,35786000</coordinates>
+      </Point>
+    </Placemark>
+
+    <Folder>
+      <name>מקרא</name>
+      <description>
+        אדום - לווייני GEO (35,786 ק"מ)
+        כחול - לווייני LEO (160-2,000 ק"מ)
+        צהוב - לווייני MEO (2,000-35,786 ק"מ)
+      </description>
+    </Folder>
+  </Document>
+</kml>

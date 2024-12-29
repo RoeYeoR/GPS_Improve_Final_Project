@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<Style id="losStyle">
+  <LineStyle>
+    <color>ff00ff00</color>
+    <width>2</width>
+  </LineStyle>
+</Style>
+<Style id="nlosStyle">
+  <LineStyle>
+    <color>ff0000ff</color>
+    <width>2</width>
+  </LineStyle>
+</Style>
+<Placemark>
+  <n>Ray to Satellite 0<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 232.59167879255574°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      -5.539372717947947,-0.988368221615579,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 1<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 178.48124379000978°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      36.224915700230454,-22.779225979003353,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 2<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 296.1771569739246°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      -25.95677201606141,37.557988999737994,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 3<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 297.7959899325075°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      -26.428690394074174,38.6356197326521,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 4<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 327.88444265691857°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      -34.880758370560514,61.27428245729029,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 5<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 293.8587392573487°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      -25.283182255887827,36.03390920292228,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 6<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 220.9957399369985°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      0.25626993529061587,-7.8832841016241675,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <n>Ray to Satellite 7<n>
+  <styleUrl>#losStyle</styleUrl>
+  <description>LOS - Elevation: 72.4949319327447°, Azimuth: 175.82931846688007°</description>
+  <LineString>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+      34.802509787657215,32.08370391160264,1.8
+      38.945818970587425,-22.575372321853013,1.9264546834610008E7
+    </coordinates>
+  </LineString>
+</Placemark>
+</Document>
+</kml>

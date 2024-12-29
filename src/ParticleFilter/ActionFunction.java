@@ -19,7 +19,6 @@ import java.util.Random;
  // hence, action[i].ChangeinSatState is the change of state from path[i] to path[i+1]
 public class ActionFunction {
 
-
     public static double MIN_SoG = 0.5, CoG_ERR = 45;
     public static double MIN_MOVE = 0.5, SOG_ERR_FACTOR=1.0, CoG_POLYNOM = 2.0, SoG_ERR_POW = 0.5;
 
@@ -65,8 +64,6 @@ public class ActionFunction {
         return ans;
     }
 
-
-
     public double getVelocity() {
         return velocity;
     }
@@ -89,14 +86,11 @@ public class ActionFunction {
     double headingChange;
     double noise;
 
-
-
     boolean ChangeInSatState;
     int SatIndexOfChange;
     public double PivotX;
     public double PivotY;
     public double PivotZ;
-
 
     public ActionFunction(double velocity, double heading, double noise) {
         this.velocity = velocity;
@@ -118,8 +112,6 @@ public class ActionFunction {
             PivotY = 0;
     }
 
-
-
     public ActionFunction(double headingChange)
     {
         this.headingChange = headingChange;
@@ -129,7 +121,6 @@ public class ActionFunction {
     {
         velocity = p1.distance(p2)+velocityNoise;
         heading = p1.angleXY_2PI(p2)+headingNoise;
-
 
         PivotX= p2.getX()-p1.getX();
         PivotY= p2.getY() - p1.getY();
@@ -143,20 +134,17 @@ public class ActionFunction {
         velocity = p1.distance(p2);
         heading = p1.angleXY_2PI(p2);
 
-
         PivotX= p2.getX()-p1.getX();
         PivotY= p2.getY() - p1.getY();
         PivotZ = p2.getZ()-p1.getZ();
         ChangeInSatState=false;//defult
     }
 
-
     public ActionFunction(Point3D p1, Point3D p2, double maxVelo)
     {
         velocity = p1.distance(p2);
         velocity = UtilsAlgorithms.AbsValue;//absValue
         heading = p1.angleXY_2PI(p2);
-
 
         //PivotX= p2.x()-p1.x();
       //  PivotY= p2.y() - p1.y();
@@ -179,16 +167,17 @@ public class ActionFunction {
         PivotX = Math.cos(heading)*velocity;
         PivotY = Math.sin(heading)*velocity;
     }
+
     public void PrintPivots()
     {
 
         System.out.println("PivotX  :"+this.PivotX+" . PivotY :" +this.PivotY+" . PivotZ : " + this.PivotZ+". Abs Value ="+this.velocity+ "  .Headig is +"+ this.heading*57.3);
 
     }
+
     public boolean isChangeInSatState() {
         return ChangeInSatState;
     }
-
 
     public void ComputeChangeInSatState(Boolean[] timeStamp1, Boolean[] timeStamp2)
     {
@@ -203,6 +192,14 @@ public class ActionFunction {
               return;
         }
     }
+    }
+
+    public Point3D apply(Point3D pos) {
+        return new Point3D(
+            pos.getX() + PivotX,
+            pos.getY() + PivotY,
+            pos.getZ() + PivotZ
+        );
     }
 
     @Override

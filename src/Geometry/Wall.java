@@ -76,12 +76,18 @@ public class Wall {
         has2DIntersectionCount++;
         double zOfRay = interpolate(line, point2D);
         double zOfWall = interpolate(getWallAsLine(), point2D);
-        // System.out.println("rayZ " + zOfRay + "\twallZ " + zOfWall + "\twallMaxHeight " + getMaxHeight());
-        if (zOfRay > zOfWall){
-            return null;
+        
+        // Debug logging
+        
+        
+        // בדיקה אם נקודת החיתוך היא בתוך גבולות הקיר
+        // Check if the intersection point is within the wall's height bounds
+        if (zOfRay >= 0 && zOfRay <= zOfWall && zOfWall <= getMaxHeight()) {
+            hasIntersectionCount++;
+            return new Point3D(point2D.getX(), point2D.getY(), zOfRay);
         }
-        hasIntersectionCount++;
-        return new Point3D(point2D.getX(), point2D.getY(), zOfRay);
+        
+        return null;
     }
     //This function calculates the interpolated z-coordinate of a point on a line segment.
     private double interpolate(Line3D line, Point2D point2D) {
@@ -118,5 +124,38 @@ public class Wall {
         return distance >= 0 ? distance : -1;
     }
 
-
+    public boolean doesIntersect(Point3D p1, Point3D p2) {
+        // Create a line segment between the two points
+        Line3D lineSegment = new Line3D(p1, p2);
+        
+        // For a square wall
+        if (typeOfwall == WallType.SQUARE) {
+            // Check if the line segment intersects with the wall plane
+            // First, check if the line intersects with the wall's base line
+            if (wallAsLine != null && wallAsLine.intersects(lineSegment)) {
+                // Then check if the intersection point is within the wall's height
+                Point3D intersection = wallAsLine.getIntersectionPoint(lineSegment);
+                if (intersection != null) {
+                    return intersection.getZ() <= maxHeight;
+                }
+            }
+            return false;
+        }
+        // For a polygon wall
+        else if (typeOfwall == WallType.POLYGON && point3dArray != null) {
+            // Check if the line segment intersects with any of the wall's faces
+            for (int i = 0; i < point3dArray.length - 1; i++) {
+                Line3D edge = new Line3D(point3dArray[i], point3dArray[i + 1]);
+                if (edge.intersects(lineSegment)) {
+                    return true;
+                }
+            }
+            // Check the last edge (connecting last point to first point)
+            if (point3dArray.length > 0) {
+                Line3D lastEdge = new Line3D(point3dArray[point3dArray.length - 1], point3dArray[0]);
+                return lastEdge.intersects(lineSegment);
+            }
+        }
+        return false;
+    }
 }

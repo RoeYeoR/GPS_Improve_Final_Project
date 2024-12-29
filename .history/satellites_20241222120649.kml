@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>satellites_export.kml</name>
+	<LookAt>
+		<gx:TimeStamp><when>0000</when></gx:TimeStamp>
+		<longitude>34.7818</longitude>
+		<latitude>32.0853</latitude>
+		<altitude>0</altitude>
+		<heading>0</heading>
+		<tilt>45</tilt>
+		<range>1000.0</range>
+		<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+	</LookAt>
+	<Placemark>
+		<name>Satellite 0</name>
+		<Point>
+			<coordinates>117.98211443851464,2.29468889709212,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 1</name>
+		<Point>
+			<coordinates>118.18038703844150,2.50501599141779,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 2</name>
+		<Point>
+			<coordinates>118.38530622974340,2.70893813938347,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 3</name>
+		<Point>
+			<coordinates>118.59863597889934,2.90620054959183,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 4</name>
+		<Point>
+			<coordinates>118.82180391861891,3.09729896410624,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 5</name>
+		<Point>
+			<coordinates>119.05567055945741,3.28319387227286,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 6</name>
+		<Point>
+			<coordinates>119.30045993467190,3.46498242516719,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 7</name>
+		<Point>
+			<coordinates>119.55583950885735,3.64360920709316,5228144.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 8</name>
+		<Point>
+			<coordinates>118.55438326551398,5.57916323626048,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 9</name>
+		<Point>
+			<coordinates>118.85156025883043,5.80879338842338,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 10</name>
+		<Point>
+			<coordinates>119.15809158944460,6.03409741187317,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 11</name>
+		<Point>
+			<coordinates>119.47395321134795,6.25493216049606,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 12</name>
+		<Point>
+			<coordinates>119.79913734905564,6.47112619120577,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 13</name>
+		<Point>
+			<coordinates>120.13365901702690,6.68248411241353,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 14</name>
+		<Point>
+			<coordinates>120.47755957781746,6.88879248080406,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 15</name>
+		<Point>
+			<coordinates>120.83090736257702,7.08982579988252,10100000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 16</name>
+		<Point>
+			<coordinates>118.25022854782162,11.86468674493567,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 17</name>
+		<Point>
+			<coordinates>118.67898649407820,12.17505655417247,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 18</name>
+		<Point>
+			<coordinates>119.11933883823453,12.48141167367850,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 19</name>
+		<Point>
+			<coordinates>119.57153562655297,12.78369048496695,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 20</name>
+		<Point>
+			<coordinates>120.03584285302321,13.08182432840705,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 21</name>
+		<Point>
+			<coordinates>120.51254288557960,13.37573763801282,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 22</name>
+		<Point>
+			<coordinates>121.00193491185259,13.66534806478323,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 23</name>
+		<Point>
+			<coordinates>121.50433540685809,13.95056659415716,14283557.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 24</name>
+		<Point>
+			<coordinates>113.61656927084665,24.39749785082640,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 25</name>
+		<Point>
+			<coordinates>114.15399357760210,24.90816182452701,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 26</name>
+		<Point>
+			<coordinates>114.70432904073752,25.42021676501741,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 27</name>
+		<Point>
+			<coordinates>115.26800896804178,25.93379967640032,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 28</name>
+		<Point>
+			<coordinates>115.84548453193614,26.44904642221004,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 29</name>
+		<Point>
+			<coordinates>116.43722555839669,26.96609157758404,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 30</name>
+		<Point>
+			<coordinates>117.04372134346010,27.48506823947436,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 31</name>
+		<Point>
+			<coordinates>117.66548149850787,28.00610779037389,17493713.2</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 32</name>
+		<Point>
+			<coordinates>88.36311922098241,41.93160989159862,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 33</name>
+		<Point>
+			<coordinates>88.52856558696082,42.57132927800287,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 34</name>
+		<Point>
+			<coordinates>88.68922256375310,43.21511892404132,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 35</name>
+		<Point>
+			<coordinates>88.84479126497243,43.86303007280336,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 36</name>
+		<Point>
+			<coordinates>88.99494750564082,44.51510918014741,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 37</name>
+		<Point>
+			<coordinates>89.13933980088230,45.17139749341565,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 38</name>
+		<Point>
+			<coordinates>89.27758716479812,45.83193060262254,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 39</name>
+		<Point>
+			<coordinates>89.40927668650889,46.49673796174657,19511701.7</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 40</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 41</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 42</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 43</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 44</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 45</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 46</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark>
+		<name>Satellite 47</name>
+		<Point>
+			<coordinates>34.72713612159862,32.08353374825975,20200000.0</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>

@@ -29,29 +29,48 @@ public class BuildingsFactory {
 
     //This function accepts the name of a kml file of buildings and creates a list of buildings in utm units
     public static List<Building> generateUTMBuildingListfromKMLfile(String file) throws Exception {
-        //A variable for the list of buildings to return
         List<Building> buildingList = new ArrayList<Building>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line= "";
+            String line = "";
+            int lineCount = 0;
+            int buildingCount = 0;
+            
             line = reader.readLine();
-            while(line!=null)
-            {
-                if(line.startsWith("<coordinates")) {
+            while(line != null) {
+                lineCount++;
+                if(line.contains("<coordinates")) {
                     //Reading a line of coordinates
                     line = reader.readLine();
-                    //Creating a building (in utm) units from a named coordinate line
-                    Building tmpBuilding = generateUTMBuildingFromCordString(line);
-                    buildingList.add(tmpBuilding);
+                    lineCount++;
+                    
+                    if (line != null && !line.trim().isEmpty()) {
+                        //Creating a building from coordinate line
+                        Building tmpBuilding = generateUTMBuildingFromCordString(line);
+                        if (tmpBuilding != null && !tmpBuilding.getWalls().isEmpty()) {
+                            buildingList.add(tmpBuilding);
+                            buildingCount++;
+                            
+                           
+                            Wall firstWall = tmpBuilding.getWalls().get(0);
+                            Point3D[] points = firstWall.getPoint3dArray();
+                            
+                        } else {
+                            System.out.println("Warning: Failed to create valid building from coordinates");
+                        }
+                    }
                 }
                 line = reader.readLine();
             }
+            
+            
         } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + file);
             e.printStackTrace();
         } catch (IOException e) {
+            System.err.println("Error reading file: " + file);
             e.printStackTrace();
         }
-
 
         return buildingList;
 
@@ -64,20 +83,19 @@ public class BuildingsFactory {
         List<Point3D> buildingVertices = new ArrayList<Point3D>();
         int size = cords.length;
         int idx=0;
-        Double x, y, z;
         while(idx<size-2)
         {
-            //lat represents y therefore taken from the first place and then long represents x therefore taken from the second place and then z
-            y = Double.parseDouble(cords[idx]);
-            x = Double.parseDouble(cords[idx+1]);
-            z= Double.parseDouble(cords[idx+2]);
-            //Creating point x,y,z
-            Point3D tmpPoint = new Point3D(x, y, z);
-            //Changing the units of the point lat long to utm
-            tmpPoint = GeoUtils.convertLATLONtoUTM(tmpPoint);
-            buildingVertices.add(tmpPoint);
+            // בקובץ KML הסדר הוא: longitude,latitude,altitude
+            double lon = Double.parseDouble(cords[idx]);
+            double lat = Double.parseDouble(cords[idx+1]);
+            double alt = Double.parseDouble(cords[idx+2]);
+            
+            // המרה לנקודה בפורמט UTM
+            Point3D latLonPoint = new Point3D(lon, lat, alt);
+            Point3D utmPoint = GeoUtils.convertLATLONtoUTM(latLonPoint);
+            buildingVertices.add(utmPoint);
+            
             idx+=3;
-
         }
         int Size = buildingVertices.size();
         //System.out.println("size: "+Size);
@@ -119,19 +137,22 @@ public class BuildingsFactory {
                     if (coordinatesList.getLength() > 0) {
                         String coordinatesStr = coordinatesList.item(0).getTextContent().trim();
                         String[] coordinates = coordinatesStr.split(",");
+                        
+                        // בקובץ KML הסדר הוא longitude,latitude,altitude
                         double lon = Double.parseDouble(coordinates[0]);
                         double lat = Double.parseDouble(coordinates[1]);
-                        double alt = coordinates.length > 2 ? Double.parseDouble(coordinates[2]) : 0;
+                        double alt = coordinates.length > 2 ? Double.parseDouble(coordinates[2]) : 1.8;
                         
-                        // Store coordinates in correct order (lat, lon, alt)
-                        Point3D point = new Point3D(lat, lon, alt);
-                        points.add(point);
+                        // יצירת נקודה חדשה - שימו לב שהסדר ב-Point3D הוא x=lon, y=lat, z=alt
+                        points.add(new Point3D(lon, lat, alt));
+                        
                     }
                 }
             }
-            System.out.println("Successfully parsed " + points.size() + " points from KML file");
+            System.out.println("Successfully parsed " + points.size() + " points");
+
         } catch (Exception e) {
-            System.err.println("Error parsing KML file:");
+            System.err.println("Error parsing KML file: " + e.getMessage());
             e.printStackTrace();
         }
 
