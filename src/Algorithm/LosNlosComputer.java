@@ -27,15 +27,23 @@ public class LosNlosComputer {
 
         // 1. קריאת נקודות מקובץ ה-KML של המסלול
         System.out.println("\nStep 1: Loading route points from KML file...");
-        String routeKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/routeABCDFabricated.kml";
-        String buildingsKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/Esri_v0.4.kml";
+        String srcDir = new File("").getAbsolutePath();
+        // Go up one level to the project root
+        String projectDir = new File(srcDir).getParent();
+        
+        String routeKMLPath = new File(projectDir, "KML/routeABCDFabricated.kml").getAbsolutePath();
+        String buildingsKMLPath = new File(projectDir, "KML/Esri_v0.4.kml").getAbsolutePath();
         
         // קריאת נקודות המסלול מקובץ ה-KML
         List<Point3D> routePoints = BuildingsFactory.parseKML(routeKMLPath);  // קריאת נקודות המסלול
         System.out.println("Loaded " + routePoints.size() + " route points from KML");
         
         // בדיקת תקינות - יצירת קובץ KML חדש מהנקודות המקוריות
-        String validationKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/route_validation.kml";
+        File kmlOutputDir = new File(projectDir, "KMLoutput");
+        if (!kmlOutputDir.exists()) {
+            kmlOutputDir.mkdir();
+        }
+        String validationKMLPath = new File(kmlOutputDir, "route_validation.kml").getAbsolutePath();
         KML_Generator.Generate_kml_from_List(routePoints, validationKMLPath, true, "redpin");  // true מציין שהנקודות כבר ב-LAT/LON
         System.out.println("Created validation KML file at: " + validationKMLPath);
         
@@ -82,8 +90,9 @@ public class LosNlosComputer {
             
             // Calculate elevation and azimuth for each satellite relative to current point
             for (Sat satellite : satellites) {
-                double[] elevAzim = calculateElevationAzimuth(currentPointUTM, satellite.getSatPosInECEF());
-                satellite.setElevetion(elevAzim[0]);
+                Point3D satPos = new Point3D(satellite.getX(), satellite.getY(), satellite.getZ());
+                double[] elevAzim = calculateElevationAzimuth(currentPointUTM, satPos);
+                satellite.setElevation(elevAzim[0]);
                 satellite.setAzimuth(elevAzim[1]);
             }
             
@@ -183,124 +192,11 @@ public class LosNlosComputer {
         System.out.println("Average Deviation: " + String.format("%.2f", avgStdDev) + " meters");
         
         // Generate LOS/NLOS visualization for the last processed point
-        System.out.println("\nGenerating LOS/NLOS visualization for the last processed point...");
-        String visualizationKML = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/los_nlos_visualization.kml";
         
-        if (!processedPoints.isEmpty()) {
-            Point3D lastPoint = processedPoints.get(processedPoints.size() - 1);
-            Point3D lastPointUTM = GeoUtils.convertLATLONtoUTM(lastPoint);
-            List<Boolean> lastPointLosResults = computeLosNlos(satellites, buildings, lastPointUTM);
-            
-            try (FileWriter writer = new FileWriter(visualizationKML)) {
-                writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-                writer.write("<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
-                writer.write("  <Document>\n");
-                writer.write("    <name>LOS/NLOS Analysis</name>\n");
-                writer.write("    <description>Visualization of LOS and NLOS satellites</description>\n");
-                
-                // Style for LOS lines (green)
-                writer.write("    <Style id=\"losStyle\">\n");
-                writer.write("      <LineStyle>\n");
-                writer.write("        <color>ff00ff00</color>\n");
-                writer.write("        <width>3</width>\n");
-                writer.write("      </LineStyle>\n");
-                writer.write("      <IconStyle>\n");
-                writer.write("        <scale>1.0</scale>\n");
-                writer.write("      </IconStyle>\n");
-                writer.write("    </Style>\n");
-                
-                // Style for NLOS lines (red)
-                writer.write("    <Style id=\"nlosStyle\">\n");
-                writer.write("      <LineStyle>\n");
-                writer.write("        <color>ff0000ff</color>\n");
-                writer.write("        <width>3</width>\n");
-                writer.write("      </LineStyle>\n");
-                writer.write("      <IconStyle>\n");
-                writer.write("        <scale>1.0</scale>\n");
-                writer.write("      </IconStyle>\n");
-                writer.write("    </Style>\n");
-                
-                // Add the point
-                writer.write("    <Placemark>\n");
-                writer.write("      <name>Analysis Point</name>\n");
-                writer.write("      <description>Last Processed Point</description>\n");
-                writer.write("      <Point>\n");
-                writer.write("        <altitudeMode>absolute</altitudeMode>\n");
-                writer.write("        <coordinates>" + lastPoint.getY() + "," + lastPoint.getX() + "," + lastPoint.getZ() + "</coordinates>\n");
-                writer.write("      </Point>\n");
-                writer.write("    </Placemark>\n");
-                
-                // Add lines to satellites
-                for (int i = 0; i < satellites.size(); i++) {
-                    if (i < lastPointLosResults.size()) {
-                        Sat satellite = satellites.get(i);
-                        boolean isLos = lastPointLosResults.get(i);
-                        
-                        // Calculate satellite position with scaling
-                        Point3D satPoint = satellite.getSatPosInECEF();
-                        // Scale down the satellite position to be visible (about 20km above ground)
-                        double scale = 20000.0; // 20km in meters
-                        double satAzimuth = Math.toRadians(satellite.getAzimuth());
-                        double satElevation = Math.toRadians(satellite.getElevetion());
-                        
-                        // Convert spherical to Cartesian coordinates
-                        double x = scale * Math.cos(satElevation) * Math.sin(satAzimuth);
-                        double y = scale * Math.cos(satElevation) * Math.cos(satAzimuth);
-                        double z = scale * Math.sin(satElevation);
-                        
-                        // Add to the receiver position
-                        Point3D scaledSatPoint = new Point3D(
-                            lastPoint.getX() + x,
-                            lastPoint.getY() + y,
-                            lastPoint.getZ() + z
-                        );
-                        
-                        // Debug output
-                        System.out.println("\nSatellite " + (i + 1) + " visualization data:");
-                        System.out.println("Azimuth: " + satellite.getAzimuth() + "°, Elevation: " + satellite.getElevetion() + "°");
-                        System.out.println("Receiver: " + lastPoint.getY() + "," + lastPoint.getX() + "," + lastPoint.getZ());
-                        System.out.println("Satellite: " + scaledSatPoint.getY() + "," + scaledSatPoint.getX() + "," + scaledSatPoint.getZ());
-                        
-                        writer.write("    <Placemark>\n");
-                        writer.write("      <name>Satellite " + (i + 1) + " - " + (isLos ? "LOS" : "NLOS") + "</name>\n");
-                        writer.write("      <description>Elevation: " + String.format("%.1f", satellite.getElevetion()) + 
-                                   "°, Azimuth: " + String.format("%.1f", satellite.getAzimuth()) + "°</description>\n");
-                        writer.write("      <styleUrl>#" + (isLos ? "losStyle" : "nlosStyle") + "</styleUrl>\n");
-                        writer.write("      <LineString>\n");
-                        writer.write("        <tessellate>1</tessellate>\n");
-                        writer.write("        <altitudeMode>relativeToGround</altitudeMode>\n");
-                        writer.write("        <coordinates>\n");
-                        writer.write("          " + lastPoint.getY() + "," + lastPoint.getX() + "," + lastPoint.getZ() + "\n");
-                        writer.write("          " + scaledSatPoint.getY() + "," + scaledSatPoint.getX() + "," + (scaledSatPoint.getZ() + 1000) + "\n");
-                        writer.write("        </coordinates>\n");
-                        writer.write("      </LineString>\n");
-                        writer.write("    </Placemark>\n");
-                        
-                        // Add satellite point
-                        writer.write("    <Placemark>\n");
-                        writer.write("      <name>Satellite " + (i + 1) + " Position</name>\n");
-                        writer.write("      <styleUrl>#" + (isLos ? "losStyle" : "nlosStyle") + "</styleUrl>\n");
-                        writer.write("      <Point>\n");
-                        writer.write("        <altitudeMode>relativeToGround</altitudeMode>\n");
-                        writer.write("        <coordinates>" + scaledSatPoint.getY() + "," + scaledSatPoint.getX() + "," + (scaledSatPoint.getZ() + 1000) + "</coordinates>\n");
-                        writer.write("      </Point>\n");
-                        writer.write("    </Placemark>\n");
-                    }
-                }
-                
-                writer.write("  </Document>\n");
-                writer.write("</kml>");
-                
-                System.out.println("Created LOS/NLOS visualization KML file at: " + visualizationKML);
-            } catch (IOException e) {
-                System.err.println("Error generating visualization KML: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
         
         // יצירת קבצי KML עם התוצאות
-        String originalKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/original_route.kml";
-        String estimatedKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/estimated_route.kml";
+        String originalKMLPath = new File(kmlOutputDir, "original_route.kml").getAbsolutePath();
+        String estimatedKMLPath = new File(kmlOutputDir, "estimated_route.kml").getAbsolutePath();
         
         // שמירת המסלול המקורי בצהוב
         KML_Generator.Generate_kml_from_List(processedPoints, originalKMLPath, true, "redpin");
@@ -321,7 +217,10 @@ public class LosNlosComputer {
         List<Sat> satellites = new ArrayList<>();
         
         // Read satellites from KML file
-        String satellitesKMLPath = "c:/Users/A/Desktop/לימודים/FinalProjectGPS/Final_project-main-master/satellites.kml";
+        String srcDir = new File("").getAbsolutePath();
+        // Go up one level to the project root
+        String projectDir = new File(srcDir).getParent();
+        String satellitesKMLPath = new File(projectDir, "KML/satellites.kml").getAbsolutePath();
         try {
             // Parse the KML file to get satellite positions
             List<Point3D> satPoints = BuildingsFactory.parseKML(satellitesKMLPath);
@@ -331,7 +230,8 @@ public class LosNlosComputer {
             for (int i = 0; i < satPoints.size(); i++) {
                 Point3D satPoint = satPoints.get(i);
                 Point3D satPosECEF = GeoUtils.convertLATLONtoUTM(satPoint); // Convert to UTM coordinates
-                Sat satellite = new Sat(satPosECEF, 0, 0, i + 1); // Create satellite with position
+                Sat satellite = new Sat('G', i + 1);
+                satellite.setSatPos(satPosECEF.getX(), satPosECEF.getY(), satPosECEF.getZ());
                 satellites.add(satellite);
             }
         } catch (Exception e) {
@@ -345,10 +245,10 @@ public class LosNlosComputer {
     // Update satellite angles for a specific point
     private static void updateSatelliteAngles(List<Sat> satellites, Point3D point) {
         for (Sat satellite : satellites) {
-            Point3D satPos = satellite.getSatPosInECEF();
+            Point3D satPos = new Point3D(satellite.getX(), satellite.getY(), satellite.getZ());
             if (satPos != null) {
                 double[] elevAzim = calculateElevationAzimuth(point, satPos);
-                satellite.setElevetion(elevAzim[0]);
+                satellite.setElevation(elevAzim[0]);
                 satellite.setAzimuth(elevAzim[1]);
             }
         }

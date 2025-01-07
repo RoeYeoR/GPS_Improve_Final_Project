@@ -1,0 +1,16 @@
+<Document>
+<Style id="redpin">
+<IconStyle>
+<color>ff0000ff</color>
+<scale>0.5</scale>
+<Icon><href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href></Icon>
+</IconStyle>
+</Style>
+<Style id="yellowpin">
+<IconStyle>
+<color>ff00ffff</color>
+<scale>0.5</scale>
+<Icon><href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href></Icon>
+</IconStyle>
+</Style>
+</Document>

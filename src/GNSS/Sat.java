@@ -3,245 +3,251 @@ package GNSS;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a satellite with its position, velocity, azimuth, elevation, and SNR history.
- */
 public class Sat {
-
-    private double x, y, z;
-    private double vx, vy, vz;
-    private double azimuth;
-    private double elevetion;
-    private int satID;
-    private List<Integer> snrHistory;  // List to store SNR values for each second
-    private double averageSNR;         // Average SNR over all measurements
-    private long firstTimestamp;       // First timestamp in milliseconds
-    private int currentSNR;           // Current SNR value
+    // Basic satellite information
+    private double x, y, z;           // Position coordinates
+    private double vx, vy, vz;        // Velocity components
+    private double azimuth;           // Azimuth angle (will be calculated later)
+    private double elevation;         // Elevation angle (will be calculated later)
+    private int satID;               // Satellite ID
+    private char system;             // Satellite system (G=GPS, R=GLONASS, E=Galileo, C=BeiDou)
     
-    /**
-     * Constructs a new Sat object with the given azimuth, elevation, satellite ID, and initial SNR.
-     *
-     * @param azimuth  the azimuth angle of the satellite
-     * @param elevetion the elevation angle of the satellite
-     * @param satID    the identifier of the satellite
-     * @param snr      the initial SNR value
-     */
-    public Sat(double azimuth, double elevetion, int satID, int snr) {
-        this.azimuth = azimuth;
-        this.elevetion = elevetion;
+    // Signal measurements
+    private List<Double> l1cPhase;    // L1 carrier phase measurements
+    private List<Double> l5qPhase;    // L5 carrier phase measurements
+    private List<Double> c1cRange;    // L1 pseudorange measurements
+    private List<Double> c5qRange;    // L5 pseudorange measurements
+    private List<Double> d1cDoppler;  // L1 Doppler measurements
+    private List<Double> d5qDoppler;  // L5 Doppler measurements
+    private List<Double> s1cSnr;      // L1 SNR measurements
+    private List<Double> s5qSnr;      // L5 SNR measurements
+    
+    // Time information
+    private long firstTimestamp;      // First measurement timestamp
+    private List<Long> timestamps;    // List of measurement timestamps
+    
+    // Lists for azimuth and elevation history
+    private List<Double> azimuthHistory;
+    private List<Double> elevationHistory;
+    
+    public Sat(char system, int satID) {
+        this.system = system;
         this.satID = satID;
-        this.snrHistory = new ArrayList<>();
-        this.firstTimestamp = 0;
-        this.currentSNR = snr;
-    }
-
-    /**
-     * Creates a list of satellites from an NMEA log file.
-     * 
-     * @param nmeaFilePath Path to the NMEA log file
-     * @return List of Sat objects with their complete SNR history
-     */
-    public static List<Sat> createFromNMEAFile(String nmeaFilePath) {
-        NMEAParser parser = new NMEAParser();
-        return parser.parseSatellitesFromNMEA(nmeaFilePath);
-    }
-
-    /**
-     * Updates the SNR for a specific timestamp.
-     *
-     * @param snr       the new SNR value
-     * @param timestamp the timestamp in milliseconds
-     */
-    public void updateSNR(int snr, long timestamp) {
-        this.currentSNR = snr;
         
+        // Initialize measurement lists
+        this.l1cPhase = new ArrayList<>();
+        this.l5qPhase = new ArrayList<>();
+        this.c1cRange = new ArrayList<>();
+        this.c5qRange = new ArrayList<>();
+        this.d1cDoppler = new ArrayList<>();
+        this.d5qDoppler = new ArrayList<>();
+        this.s1cSnr = new ArrayList<>();
+        this.s5qSnr = new ArrayList<>();
+        this.timestamps = new ArrayList<>();
+        this.azimuthHistory = new ArrayList<>();
+        this.elevationHistory = new ArrayList<>();
+    }
+    
+    // Constructor for satellite with position in spherical coordinates (azimuth, elevation, distance)
+    public Sat(double azimuth, double elevation, double distance) {
+        this('G', 0); // Default to GPS system with ID 0
+        
+        // Convert spherical coordinates to Cartesian
+        double azimuthRad = Math.toRadians(azimuth);
+        double elevationRad = Math.toRadians(elevation);
+        
+        this.x = distance * Math.cos(elevationRad) * Math.cos(azimuthRad);
+        this.y = distance * Math.cos(elevationRad) * Math.sin(azimuthRad);
+        this.z = distance * Math.sin(elevationRad);
+        
+        this.azimuth = azimuth;
+        this.elevation = elevation;
+    }
+    
+    // Add a complete measurement set
+    public void addMeasurement(long timestamp, 
+                             Double c1c, Double l1c, Double d1c, Double s1c,
+                             Double c5q, Double l5q, Double d5q, Double s5q,
+                             Double azimuth, Double elevation) {
         if (firstTimestamp == 0) {
             firstTimestamp = timestamp;
         }
         
-        // Calculate second index based on timestamp difference
-        int secondIndex = (int)(timestamp / 1000);
+        timestamps.add(timestamp);
         
-        // Ensure the list has enough capacity
-        while (snrHistory.size() <= secondIndex) {
-            snrHistory.add(currentSNR);  // Fill with current SNR value
-        }
+        // Add L1 measurements
+        c1cRange.add(c1c != null ? c1c : Double.NaN);
+        l1cPhase.add(l1c != null ? l1c : Double.NaN);
+        d1cDoppler.add(d1c != null ? d1c : Double.NaN);
+        s1cSnr.add(s1c != null && s1c > 0 ? s1c : Double.NaN);
         
-        // Update SNR at the correct second
-        snrHistory.set(secondIndex, snr);
+        // Add L5 measurements
+        c5qRange.add(c5q != null ? c5q : Double.NaN);
+        l5qPhase.add(l5q != null ? l5q : Double.NaN);
+        d5qDoppler.add(d5q != null ? d5q : Double.NaN);
+        s5qSnr.add(s5q != null && s5q > 0 ? s5q : Double.NaN);
         
-        // Recalculate average SNR
-        updateAverageSNR();
+        // Azimuth and elevation will be calculated later based on satellite position
     }
     
-    /**
-     * Updates the average SNR based on the current SNR history.
-     */
-    private void updateAverageSNR() {
-        if (snrHistory.isEmpty()) {
-            averageSNR = 0;
-            return;
-        }
-        
+    // Get average SNR over all measurements
+    public double getAverageSnr() {
         double sum = 0;
         int count = 0;
-        for (int snr : snrHistory) {
-            if (snr > 0) {  // Only count non-zero SNR values
+        
+        // Consider both L1 and L5 SNR values
+        for (Double snr : s1cSnr) {
+            if (!snr.isNaN()) {
                 sum += snr;
                 count++;
             }
         }
-        averageSNR = count > 0 ? sum / count : 0;
+        
+        for (Double snr : s5qSnr) {
+            if (!snr.isNaN()) {
+                sum += snr;
+                count++;
+            }
+        }
+        
+        return count > 0 ? sum / count : 0;
     }
-
-    /**
-     * Gets the x-coordinate of the satellite's position.
-     *
-     * @return the x-coordinate
-     */
+    
+    // Get the most recent SNR measurement
+    public double getCurrentSnr() {
+        if (!s1cSnr.isEmpty() && !s1cSnr.get(s1cSnr.size() - 1).isNaN()) {
+            return s1cSnr.get(s1cSnr.size() - 1);
+        }
+        if (!s5qSnr.isEmpty() && !s5qSnr.get(s5qSnr.size() - 1).isNaN()) {
+            return s5qSnr.get(s5qSnr.size() - 1);
+        }
+        return 0;
+    }
+    
+    // Get satellite identifier (e.g., G01, R02)
+    public String getSatId() {
+        return system + String.format("%02d", satID);
+    }
+    
+    // Get latest pseudorange measurement
+    public double getLatestPseudorange() {
+        if (!c1cRange.isEmpty() && !c1cRange.get(c1cRange.size() - 1).isNaN()) {
+            return c1cRange.get(c1cRange.size() - 1);
+        }
+        if (!c5qRange.isEmpty() && !c5qRange.get(c5qRange.size() - 1).isNaN()) {
+            return c5qRange.get(c5qRange.size() - 1);
+        }
+        return Double.NaN;
+    }
+    
+    // Get latest carrier phase measurement
+    public double getLatestCarrierPhase() {
+        if (!l1cPhase.isEmpty() && !l1cPhase.get(l1cPhase.size() - 1).isNaN()) {
+            return l1cPhase.get(l1cPhase.size() - 1);
+        }
+        if (!l5qPhase.isEmpty() && !l5qPhase.get(l5qPhase.size() - 1).isNaN()) {
+            return l5qPhase.get(l5qPhase.size() - 1);
+        }
+        return Double.NaN;
+    }
+    
+    // Get latest Doppler measurement
+    public double getLatestDoppler() {
+        if (!d1cDoppler.isEmpty() && !d1cDoppler.get(d1cDoppler.size() - 1).isNaN()) {
+            return d1cDoppler.get(d1cDoppler.size() - 1);
+        }
+        if (!d5qDoppler.isEmpty() && !d5qDoppler.get(d5qDoppler.size() - 1).isNaN()) {
+            return d5qDoppler.get(d5qDoppler.size() - 1);
+        }
+        return Double.NaN;
+    }
+    
+    // Get latest azimuth
+    public double getLatestAzimuth() {
+        if (!azimuthHistory.isEmpty()) {
+            return azimuthHistory.get(azimuthHistory.size() - 1);
+        }
+        return Double.NaN;
+    }
+    
+    // Get latest elevation
+    public double getLatestElevation() {
+        if (!elevationHistory.isEmpty()) {
+            return elevationHistory.get(elevationHistory.size() - 1);
+        }
+        return Double.NaN;
+    }
+    
+    // Get all SNR measurements as array
+    public double[] getSnrArray() {
+        double[] snrArray = new double[s1cSnr.size()];
+        for (int i = 0; i < s1cSnr.size(); i++) {
+            if (!s1cSnr.get(i).isNaN()) {
+                snrArray[i] = s1cSnr.get(i);
+            } else if (i < s5qSnr.size() && !s5qSnr.get(i).isNaN()) {
+                snrArray[i] = s5qSnr.get(i);
+            } else {
+                snrArray[i] = 0.0;
+            }
+        }
+        return snrArray;
+    }
+    
+    // Getters and setters
     public double getX() { return x; }
-    /**
-     * Sets the x-coordinate of the satellite's position.
-     *
-     * @param x the new x-coordinate
-     */
     public void setX(double x) { this.x = x; }
     
-    /**
-     * Gets the y-coordinate of the satellite's position.
-     *
-     * @return the y-coordinate
-     */
     public double getY() { return y; }
-    /**
-     * Sets the y-coordinate of the satellite's position.
-     *
-     * @param y the new y-coordinate
-     */
     public void setY(double y) { this.y = y; }
     
-    /**
-     * Gets the z-coordinate of the satellite's position.
-     *
-     * @return the z-coordinate
-     */
     public double getZ() { return z; }
-    /**
-     * Sets the z-coordinate of the satellite's position.
-     *
-     * @param z the new z-coordinate
-     */
     public void setZ(double z) { this.z = z; }
     
-    /**
-     * Gets the x-component of the satellite's velocity.
-     *
-     * @return the x-component
-     */
     public double getVx() { return vx; }
-    /**
-     * Sets the x-component of the satellite's velocity.
-     *
-     * @param vx the new x-component
-     */
     public void setVx(double vx) { this.vx = vx; }
     
-    /**
-     * Gets the y-component of the satellite's velocity.
-     *
-     * @return the y-component
-     */
     public double getVy() { return vy; }
-    /**
-     * Sets the y-component of the satellite's velocity.
-     *
-     * @param vy the new y-component
-     */
     public void setVy(double vy) { this.vy = vy; }
     
-    /**
-     * Gets the z-component of the satellite's velocity.
-     *
-     * @return the z-component
-     */
     public double getVz() { return vz; }
-    /**
-     * Sets the z-component of the satellite's velocity.
-     *
-     * @param vz the new z-component
-     */
     public void setVz(double vz) { this.vz = vz; }
     
-    /**
-     * Gets the azimuth angle of the satellite.
-     *
-     * @return the azimuth angle
-     */
     public double getAzimuth() { return azimuth; }
-    /**
-     * Sets the azimuth angle of the satellite.
-     *
-     * @param azimuth the new azimuth angle
-     */
     public void setAzimuth(double azimuth) { this.azimuth = azimuth; }
     
-    /**
-     * Gets the elevation angle of the satellite.
-     *
-     * @return the elevation angle
-     */
-    public double getElevetion() { return elevetion; }
-    /**
-     * Sets the elevation angle of the satellite.
-     *
-     * @param elevetion the new elevation angle
-     */
-    public void setElevetion(double elevetion) { this.elevetion = elevetion; }
+    public double getElevation() { return elevation; }
+    public void setElevation(double elevation) { this.elevation = elevation; }
     
-    /**
-     * Gets the identifier of the satellite.
-     *
-     * @return the satellite ID
-     */
     public int getSatID() { return satID; }
+    public char getSystem() { return system; }
     
-    /**
-     * Gets the SNR history of the satellite.
-     *
-     * @return a copy of the SNR history list
-     */
-    public List<Integer> getSnrHistory() { return new ArrayList<>(snrHistory); }
+    public List<Double> getL1cPhase() { return new ArrayList<>(l1cPhase); }
+    public List<Double> getL5qPhase() { return new ArrayList<>(l5qPhase); }
+    public List<Double> getC1cRange() { return new ArrayList<>(c1cRange); }
+    public List<Double> getC5qRange() { return new ArrayList<>(c5qRange); }
+    public List<Double> getD1cDoppler() { return new ArrayList<>(d1cDoppler); }
+    public List<Double> getD5qDoppler() { return new ArrayList<>(d5qDoppler); }
+    public List<Double> getS1cSnr() { return new ArrayList<>(s1cSnr); }
+    public List<Double> getS5qSnr() { return new ArrayList<>(s5qSnr); }
+    public List<Long> getTimestamps() { return new ArrayList<>(timestamps); }
     
-    /**
-     * Gets the average SNR of the satellite.
-     *
-     * @return the average SNR
-     */
-    public double getAverageSNR() { return averageSNR; }
+    public List<Double> getAzimuthHistory() { return new ArrayList<>(azimuthHistory); }
+    public List<Double> getElevationHistory() { return new ArrayList<>(elevationHistory); }
     
-    /**
-     * Gets the single SNR value of the satellite.
-     *
-     * @return the single SNR value
-     */
-    public int getSingleSNR() { return currentSNR; }
+    public void setSatPos(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
     
-    /**
-     * Sets the single SNR value of the satellite.
-     *
-     * @param snr the new single SNR value
-     */
-    public void setSingleSNR(int snr) {
-        this.currentSNR = snr;
+    public static List<Sat> createFromRINEXFile(String rinexFilePath) {
+        RINEXParser parser = new RINEXParser();
+        return parser.parseSatellitesFromRINEX(rinexFilePath);
     }
     
     @Override
     public String toString() {
-        return "Satellite ID: " + satID + 
-               ", Azimuth: " + String.format("%.2f", azimuth) + 
-               ", Elevation: " + String.format("%.2f", elevetion) + 
-               ", Current SNR: " + currentSNR +
-               ", History Size: " + snrHistory.size() + " seconds" +
-               ", Average SNR: " + String.format("%.2f", averageSNR);
+        return String.format("%c%02d - Az: %.2f°, El: %.2f°, SNR: %.1f, Measurements: %d",
+            system, satID, azimuth, elevation, getCurrentSnr(), timestamps.size());
     }
 }

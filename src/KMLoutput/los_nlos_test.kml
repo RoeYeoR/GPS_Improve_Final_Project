@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<Style id="wallStyle">
+  <LineStyle>
+    <color>ff0000ff</color>
+    <width>2</width>
+  </LineStyle>
+  <PolyStyle>
+    <color>4d0000ff</color>
+    <fill>1</fill>
+    <outline>1</outline>
+  </PolyStyle>
+</Style>
+<Style id="greenLineStyle">
+  <LineStyle>
+    <color>ff00ff00</color>
+    <width>2</width>
+  </LineStyle>
+</Style>
+<Placemark>
+  <Name>Observer</Name>
+  <Point>
+    <altitudeMode>relativeToGround</altitudeMode>
+    <coordinates>34.7818,32.0853,70.1</coordinates>
+  </Point>
+</Placemark>
+<Placemark>
+  <Name>Wall</Name>
+  <styleUrl>#wallStyle</styleUrl>
+  <Polygon>
+    <extrude>1</extrude>
+    <tessellate>1</tessellate>
+    <altitudeMode>relativeToGround</altitudeMode>
+    <outerBoundaryIs>
+      <LinearRing>
+        <coordinates>
+          34.78210205388965,32.085423309240966,0
+          34.7819547399078,32.085552940829835,0
+          34.7819547399078,32.085552940829835,100.0
+          34.78210205388965,32.085423309240966,100.0
+          34.78210205388965,32.085423309240966,0
+        </coordinates>
+      </LinearRing>
+    </outerBoundaryIs>
+  </Polygon>
+</Placemark>
+<Placemark>
+  <Name>Wall Outline</Name>
+  <LineString>
+    <altitudeMode>relativeToGround</altitudeMode>
+    <coordinates>
+      34.78210205388965,32.085423309240966,0
+      34.78210205388965,32.085423309240966,100.0
+      34.7819547399078,32.085552940829835,100.0
+      34.7819547399078,32.085552940829835,0
+      34.78210205388965,32.085423309240966,0
+    </coordinates>
+  </LineString>
+</Placemark>
+<Placemark>
+  <Name>Satellite</Name>
+  <Point>
+    <altitudeMode>relativeToGround</altitudeMode>
+    <coordinates>34.789413735693564,32.09157059236018,1000.0</coordinates>
+  </Point>
+</Placemark>
+<Placemark>
+  <Name>Line of Sight</Name>
+  <styleUrl>#greenLineStyle</styleUrl>
+  <LineString>
+    <altitudeMode>relativeToGround</altitudeMode>
+    <coordinates>
+      34.7818,32.0853,70.1
+      34.78408401159461,32.08718123033223,370.0999999999999
+    </coordinates>
+  </LineString>
+</Placemark>
+</Document>
+</kml>

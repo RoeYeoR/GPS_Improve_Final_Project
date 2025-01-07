@@ -56,12 +56,10 @@ public class KML_Generator
         kml.append("</LineStyle>\n");
         kml.append("</Style>\n");
 
-
-
         // Add points and satellite lines
         for (Point3D point : points) {
             for (Sat satellite : satellites) {
-                Point3D endpoint = OurCalculateEndpoint(point, satellite.getAzimuth(), satellite.getElevetion(), 10); // assuming 10km lines
+                Point3D endpoint = OurCalculateEndpoint(point, satellite.getAzimuth(), satellite.getElevation(), 10); // assuming 10km lines
                 System.out.println("the endpoint is: "+endpoint);
 
                 kml.append("<Placemark>\n");
@@ -393,4 +391,64 @@ public class KML_Generator
 
 }
 
+    public static void Generate_kml_with_line(Point3D testPoint, Point3D satPos, Point3D testPointUTM, Point3D satPosUTM, double elevation, String color, String filePath) {
+        try {
+            FileWriter fstream = new FileWriter(filePath);
+            BufferedWriter out = new BufferedWriter(fstream);
+            
+            // Start KML file
+            out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            out.write("<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n");
+            out.write("<Document>\n");
+            
+            // Style for the line
+            out.write("<Style id=\"" + color + "Line\">\n");
+            out.write("<LineStyle>\n");
+            if (color.equals("green")) {
+                out.write("<color>ff00ff00</color>\n"); // Green
+            } else {
+                out.write("<color>ff0000ff</color>\n"); // Red
+            }
+            out.write("<width>2</width>\n");
+            out.write("</LineStyle>\n");
+            out.write("</Style>\n");
+            
+            // Add the test point
+            out.write("<Placemark>\n");
+            out.write("<name>Test Point</name>\n");
+            out.write("<Point>\n");
+            out.write("<coordinates>" + testPoint.getY() + "," + testPoint.getX() + "," + testPoint.getZ() + "</coordinates>\n");
+            out.write("</Point>\n");
+            out.write("</Placemark>\n");
+            
+            // Add the satellite point
+            out.write("<Placemark>\n");
+            out.write("<name>Satellite Position</name>\n");
+            out.write("<Point>\n");
+            out.write("<coordinates>" + satPos.getY() + "," + satPos.getX() + "," + satPos.getZ() + "</coordinates>\n");
+            out.write("</Point>\n");
+            out.write("</Placemark>\n");
+            
+            // Add the line connecting them
+            out.write("<Placemark>\n");
+            out.write("<name>Line of Sight</name>\n");
+            out.write("<description>Elevation: " + elevation + " degrees</description>\n");
+            out.write("<styleUrl>#" + color + "Line</styleUrl>\n");
+            out.write("<LineString>\n");
+            out.write("<coordinates>\n");
+            out.write(testPoint.getY() + "," + testPoint.getX() + "," + testPoint.getZ() + "\n");
+            out.write(satPos.getY() + "," + satPos.getX() + "," + satPos.getZ() + "\n");
+            out.write("</coordinates>\n");
+            out.write("</LineString>\n");
+            out.write("</Placemark>\n");
+            
+            // End KML file
+            out.write("</Document>\n");
+            out.write("</kml>");
+            
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

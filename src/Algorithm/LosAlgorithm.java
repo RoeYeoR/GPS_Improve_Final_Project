@@ -62,29 +62,83 @@ public class LosAlgorithm {
     //Computes LOS between a point, a wall, and a satellite.
     public static boolean ComputeLos(Point3D pos, Wall wall, Sat sat)
     {
-        Line3D ray = new Line3D(pos, sat.getAzimuth(), sat.getElevetion(), 300);
+        Line3D ray = new Line3D(pos, sat.getAzimuth(), sat.getElevation(), 300);
         Point3D intersectionPoint = wall.intersectionPoint3D(ray);
         return intersectionPoint == null; // אם אין נקודת חיתוך - יש LOS
     }
     /**
-     receives a wall and satellite point,
-     You find the line between the satellite and the point and calculate whether there is a point of intersection between this line and the wall.
-     If none, returns -1
-     If there is, returns the distance between the intersection point and the height of the wall.
+     * receives a wall and satellite point,
+     * You find the line between the satellite and the point and calculate whether there is a point of intersection between this line and the wall.
+     * If none, returns -1
+     * If there is, returns the distance between the intersection point and the height of the wall.
      */
-    public static double ourComputeLos(Point3D pos, Wall wall, Sat sat){
-        Line3D ray = new Line3D(pos, sat.getAzimuth(),sat.getElevetion(), 300);
-
-        Point3D cutPoint = wall.intersectionPoint3D(ray); // Intersection point between a wall and the ray
-        if(cutPoint == null) {
-            return -1; // No intersection, return -1
-        } else {
-            return wall.distanceToTop(cutPoint); // Calculate and return distance to top of the wall
+    public static double ourComputeLos(Point3D pos, Wall wall, Sat sat) {
+        // Create line of sight ray
+        Line3D ray = new Line3D(pos, sat.getAzimuth(), sat.getElevation(), 300);
+        
+        // Get the 2D intersection point
+        Point2D point2D = wall.getWallAsLine().intersectionPoint(ray);
+        if (point2D == null) {
+            return -1; // No intersection in 2D
         }
+        
+        // Calculate horizontal distance to intersection
+        double dx = point2D.getX() - ray.getP1().getX();
+        double dy = point2D.getY() - ray.getP1().getY();
+        double horizontalDistance = Math.sqrt(dx*dx + dy*dy);
+        
+        // Calculate height at intersection point
+        double heightGain = horizontalDistance * Math.tan(Math.toRadians(sat.getElevation()));
+        double zAtIntersection = pos.getZ() + heightGain;
+
+        // Check if ray passes below wall top
+        double wallTotalHeight = wall.getWallAsLine().getP1().getZ() + wall.getMaxHeight();
+        if (zAtIntersection < wallTotalHeight) {
+            double heightDiff = wallTotalHeight - zAtIntersection;
+
+            System.out.println("\nLOS/NLOS Analysis Results:");
+            System.out.println("==========================");
+            System.out.println("Wall Information:");
+            System.out.println("- Base Height: " + String.format("%.1f", wall.getWallAsLine().getP1().getZ()) + " meters");
+            System.out.println("- Total Height: " + String.format("%.1f", wall.getMaxHeight()) + " meters");
+            
+            System.out.println("\nObserver Information:");
+            System.out.println("- Position: " + pos.toString());
+            System.out.println("- Height: " + String.format("%.1f", pos.getZ()) + " meters");
+            
+            System.out.println("\nSatellite Information:");
+            System.out.println("- Elevation: " + String.format("%.1f", sat.getElevation()) + " degrees");
+            System.out.println("- Azimuth: " + String.format("%.1f", sat.getAzimuth()) + " degrees");
+            System.out.println("- Height at Intersection: " + String.format("%.1f", zAtIntersection) + " meters");
+            
+            System.out.println("\nNLOS Details:");
+            System.out.println("- Height Difference: " + String.format("%.3f", heightDiff) + " meters");
+            
+            System.out.println("\nFinal Result: NLOS");
+            System.out.println("Distance needed to clear wall (vertical): " + String.format("%.3f", heightDiff) + " meters");
+
+            return heightDiff;
+        }
+        
+        // Ray passes above wall
+        System.out.println("\nLOS/NLOS Analysis Results:");
+        System.out.println("==========================");
+        System.out.println("Wall Information:");
+        System.out.println("- Base Height: " + String.format("%.1f", wall.getWallAsLine().getP1().getZ()) + " meters");
+        System.out.println("- Total Height: " + String.format("%.1f", wall.getMaxHeight()) + " meters");
+        
+        System.out.println("\nObserver Information:");
+        System.out.println("- Position: " + pos.toString());
+        System.out.println("- Height: " + String.format("%.1f", pos.getZ()) + " meters");
+        
+        System.out.println("\nSatellite Information:");
+        System.out.println("- Elevation: " + String.format("%.1f", sat.getElevation()) + " degrees");
+        System.out.println("- Azimuth: " + String.format("%.1f", sat.getAzimuth()) + " degrees");
+        System.out.println("- Height at Intersection: " + String.format("%.1f", zAtIntersection) + " meters");
+        
+        System.out.println("\nFinal Result: LOS");
+        return -1;
     }
-
-
-
 
     //Computes LOS between a point, a building, and a satellite by iterating over the walls of the building.
     public static boolean ComputeLos(Point3D pos, Building building, Sat sat)

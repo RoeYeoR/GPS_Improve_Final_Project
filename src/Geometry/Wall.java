@@ -102,6 +102,10 @@ public class Wall {
         return maxHeight;
     }
 
+    public void setMaxHeight(double maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+
     public WallType getWallType() {
         return typeOfwall;
     }

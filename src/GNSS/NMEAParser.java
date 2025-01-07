@@ -46,7 +46,10 @@ public class NMEAParser {
                 
                 // Update all satellites with current SNR for this timestamp
                 for (Sat sat : satellites.values()) {
-                    sat.updateSNR(sat.getSingleSNR(), currentTimestamp - startTimestamp);
+                    sat.addMeasurement(currentTimestamp - startTimestamp,
+                        null, null, null, sat.getCurrentSnr(),
+                        null, null, null, null,
+                        sat.getAzimuth(), sat.getElevation());
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -68,16 +71,21 @@ public class NMEAParser {
                 
                 Sat sat = satellites.get(satId);
                 if (sat == null) {
-                    sat = new Sat(azimuth, elevation, satId, snr);
+                    sat = new Sat('G', satId); // 'G' for GPS satellites
+                    sat.setAzimuth(azimuth);
+                    sat.setElevation(elevation);
                     satellites.put(satId, sat);
                 } else {
                     sat.setAzimuth(azimuth);
-                    sat.setElevetion(elevation);
+                    sat.setElevation(elevation);
                 }
                 
                 // Only update SNR if we have a valid timestamp
                 if (currentTimestamp > 0) {
-                    sat.updateSNR(snr, currentTimestamp - startTimestamp);
+                    sat.addMeasurement(currentTimestamp - startTimestamp,
+                        null, null, null, (double)snr,
+                        null, null, null, null,
+                        azimuth, elevation);
                 }
                 
                 startIndex += 4;
