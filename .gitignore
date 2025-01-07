@@ -1,2 +1,30 @@
 # Project exclude paths
 /out/
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+
+# Build directories
+target/
+bin/
+
+# Temporary files
+*.log
+*.tmp
+
+# KML output files (since they are generated)
+KMLoutput/
+src/KMLoutput/
+
+# OS specific files
+.DS_Store
+Thumbs.db
